@@ -24,6 +24,7 @@ class TodoList extends Component {
 		};
 		this.addTodo = this.addTodo.bind(this);
 		this.removeTodo = this.removeTodo.bind(this);
+		this.updateTodo = this.updateTodo.bind(this);
 		this.save = this.save.bind(this);
 		this.reset = this.reset.bind(this);
 	}
@@ -37,6 +38,17 @@ class TodoList extends Component {
 		this.setState({ todos: newTodos });
 	}
 
+	updateTodo(id, text) {
+		const updatedTodos = this.state.todos.map((todo) => {
+			if (todo.id === id) {
+				return { ...todo, text };
+			}
+			return todo;
+		});
+
+		this.setState({ todos: updatedTodos });
+	}
+
 	save() {
 		localStorage.setItem('todolist', JSON.stringify(this.state.todos));
 	}
@@ -48,7 +60,14 @@ class TodoList extends Component {
 
 	render() {
 		const todos = this.state.todos.map((todo) => (
-			<Todo id={todo.id} key={todo.id} text={todo.text} completed={todo.completed} remove={this.removeTodo} />
+			<Todo
+				id={todo.id}
+				key={todo.id}
+				text={todo.text}
+				completed={todo.completed}
+				remove={this.removeTodo}
+				update={this.updateTodo}
+			/>
 		));
 		return (
 			<div>
