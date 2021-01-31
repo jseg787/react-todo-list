@@ -11,6 +11,7 @@ class Todo extends Component {
 		this.handleSubmit = this.handleSubmit.bind(this);
 		this.handleChange = this.handleChange.bind(this);
 		this.toggleEdit = this.toggleEdit.bind(this);
+		this.toggleComplete = this.toggleComplete.bind(this);
 	}
 
 	handleClick() {
@@ -31,6 +32,10 @@ class Todo extends Component {
 		this.setState({ isEditing: !this.state.isEditing });
 	}
 
+	toggleComplete() {
+		this.props.toggleComplete(this.props.id);
+	}
+
 	render() {
 		let result;
 		if (this.state.isEditing) {
@@ -43,7 +48,9 @@ class Todo extends Component {
 		} else {
 			result = (
 				<div>
-					<div>{this.props.text}</div>
+					<div className={this.props.completed ? 'completed' : ''} onClick={this.toggleComplete}>
+						{this.props.text}
+					</div>
 					<div>
 						<button onClick={this.handleClick}>Delete</button>
 						<button onClick={this.toggleEdit}>Edit</button>
